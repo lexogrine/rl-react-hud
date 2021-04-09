@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RL, { Player, RawTeam } from "./lhm-rl-module"; // TODO: Make an actual module out of this. Hubert pls help.
 import Layout from "./HUD/Layout";
 import api, { port, isDev } from "./api/api";
+import { loadAvatarURL } from "./api/avatars";
 import ActionManager, { ConfigManager } from "./api/actionManager";
 import io from "socket.io-client";
 
@@ -12,12 +13,21 @@ export const configs = new ConfigManager();
 
 export const socket = io(isDev ? `localhost:${port}` : "/");
 
+interface DataLoader {
+  match: Promise<void> | null;
+}
+
+const dataLoader: DataLoader = {
+  match: null,
+};
+
 function App() {
   const parseAndUpdateGame = async (data: any) => {
     const playerExtension = await api.players.get();
     const playersToExtend: Player[] = Object.values(data.players);
 
     const final = playersToExtend.map((p: Player) => {
+      loadAvatarURL(p.name); // Loading player avatars, placed here because why not
       const found = playerExtension.find((e) => e.steamid === p.name);
       if (!found) return p;
       return { ...p, ...found };
@@ -33,6 +43,63 @@ function App() {
     setPlayers(final);
   };
 
+  const loadMatch = async (force = false) => {
+    if (!dataLoader.match || force) {
+      dataLoader.match = new Promise((resolve) => {
+        api.match
+          .getCurrent()
+          .then((m) => {
+            if (!m) {
+              dataLoader.match = null;
+              return;
+            }
+            setMatch(m);
+
+            if (match.left.id) {
+              api.teams.getOne(match.left.id).then((left) => {
+                const gsiTeamData = {
+                  id: left._id,
+                  name: left.name,
+                  country: left.country,
+                  logo: left.logo,
+                  map_score: match.left.wins,
+                  extra: left.extra,
+                  color_primary: game?.teams?.[0].color_primary,
+                  color_secondary: game?.teams?.[0].color_secondary,
+                };
+
+                setTeams({
+                  blue: gsiTeamData,
+                  orange: teams.orange,
+                });
+              });
+            }
+            if (match.right.id) {
+              api.teams.getOne(match.right.id).then((right) => {
+                const gsiTeamData = {
+                  id: right._id,
+                  name: right.name,
+                  country: right.country,
+                  logo: right.logo,
+                  map_score: match.right.wins,
+                  extra: right.extra,
+                  color_primary: game?.teams?.[1].color_primary,
+                  color_secondary: game?.teams?.[1].color_secondary,
+                };
+                setTeams({
+                  orange: gsiTeamData,
+                  blue: teams.blue,
+                });
+              });
+            }
+          })
+          .catch(() => {
+            dataLoader.match = null;
+          });
+      });
+    }
+  };
+
   /*
   const [WS, setWS] = useState<WebSocket | null>(
     new WebSocket("ws://192.168.1.235:49122")
@@ -40,6 +107,7 @@ function App() {
   */
 
   const [game, setGame] = useState<any>(null);
+  const [match, setMatch] = useState<any>(null);
   const [ballHit, setBallHit] = useState<any>(null);
   const [players, setPlayers] = useState<any>(null);
   const [listeners, setListeners] = useState<
@@ -49,6 +117,10 @@ function App() {
     { event: "game:ball_hit", func: setBallHit },
   ]);
   const [RLI, setRLI] = useState<RL | null>(new RL({ listeners }));
+  const [teams, setTeams] = useState<{ blue: any; orange: any }>({
+    blue: null,
+    orange: null,
+  });
 
   useEffect(() => {
     const href = window.location.href;
@@ -85,14 +157,11 @@ function App() {
 
     socket.on("update", (data: string) => RLI?.feed(data));
 
-    // socket.on("update_mirv", (data: any) => {
-    // 	GSI.digestMIRV(data);
-    // })
-
     socket.on("match", () => {
-      // loadMatch(true);
+      loadMatch(true);
     });
-  }, [RLI]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /*
   useEffect(() => {
@@ -114,7 +183,7 @@ function App() {
 
   return (
     <div className="App">
-      <Layout game={game} ballHit={ballHit} players={players} />
+      <Layout game={game} ballHit={ballHit} players={players} teams={teams} />
     </div>
   );
 }

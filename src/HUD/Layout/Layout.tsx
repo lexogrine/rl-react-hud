@@ -8,13 +8,14 @@ interface Props {
   game: any;
   ballHit: any;
   players: any;
+  teams: any;
 }
 
 // TODO: Add interfaces
 const Layout = (props: Props) => {
   if (!props.game) return null;
 
-  const { game, ballHit, players } = props;
+  const { game, ballHit, players, teams } = props;
 
   console.log("gamegame", game);
   return (
@@ -23,8 +24,8 @@ const Layout = (props: Props) => {
         time={game.time}
         blueScore={game.teams[0]?.score}
         orangeScore={game.teams[1]?.score}
-        blueTeamName={game.teams[0]?.name}
-        orangeTeamName={game.teams[1]?.name}
+        blueTeamName={teams.blue?.name}
+        orangeTeamName={teams.orange?.name}
         label={game.arena?.replace(/_/g, " ")}
       />
       <TeamBox
