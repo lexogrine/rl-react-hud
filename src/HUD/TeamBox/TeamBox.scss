@@ -1,0 +1,102 @@
+.team-box {
+  position: absolute;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  display: flex;
+  width: 130px;
+  height: 100vh;
+
+  .ball {
+    position: absolute;
+  }
+
+  &.blue {
+    left: 12px;
+    .ball {
+      left: 250px;
+    }
+  }
+
+  &.orange {
+    right: 12px;
+    .ball {
+      right: 250px;
+    }
+  }
+
+  .player-box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 130px;
+    justify-content: center;
+    margin: 32px;
+
+    .avatar {
+      background: black;
+      position: absolute;
+      z-index: -2;
+      height: 90px;
+      width: 90px;
+    }
+
+    .data-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .datum {
+        font-family: RajdhaniM;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: white;
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+    }
+
+    .name {
+      width: 130px;
+      font-size: 22px;
+      font-family: Rajdhani;
+      font-weight: bold;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .background {
+      position: absolute;
+      z-index: -1;
+    }
+
+    &.blue {
+      left: 0;
+      padding-left: 80px;
+      .background {
+        left: 0;
+      }
+      .name {
+        text-align: left;
+      }
+      .avatar {
+        left: 5px;
+      }
+    }
+
+    &.orange {
+      right: 0;
+      padding-right: 80px;
+      align-self: flex-end;
+      .background {
+        right: 0;
+      }
+      .name {
+        text-align: right;
+      }
+      .avatar {
+        right: 5px;
+      }
+    }
+  }
+}

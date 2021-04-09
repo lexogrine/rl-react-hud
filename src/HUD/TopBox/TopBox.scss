@@ -1,0 +1,81 @@
+.top-box {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .inner-container {
+    position: relative;
+
+    .time {
+      position: absolute;
+      font-family: Orbitron;
+      color: white;
+      text-align: center;
+      transform: translateX(-50%);
+      letter-spacing: 0.1em;
+      font-size: 40px;
+      text-shadow: 0px 0px 7px rgba(255, 255, 255, 0.75);
+      top: 15px;
+      left: 50%;
+    }
+
+    .score {
+      position: absolute;
+      font-family: Orbitron;
+      color: white;
+      text-align: center;
+      letter-spacing: 0.1em;
+      font-size: 40px;
+      text-shadow: 0px 0px 7px rgba(255, 255, 255, 0.75);
+      top: 19px;
+
+      &.blue {
+        transform: translateX(-50%);
+        left: 450px;
+      }
+
+      &.orange {
+        transform: translateX(50%);
+        right: 450px;
+      }
+    }
+
+    .team-name {
+      position: absolute;
+      text-align: right;
+      font-family: Rajdhani;
+      font-weight: bold;
+      font-size: 24px;
+      top: 32px;
+      letter-spacing: 0.01em;
+      color: white;
+      text-transform: uppercase;
+      line-height: 31px;
+
+      &.blue {
+        right: 780px;
+      }
+
+      &.orange {
+        left: 780px;
+      }
+    }
+
+    .match-name {
+      position: absolute;
+      font-family: Rajdhani;
+      font-weight: bold;
+      font-size: 15px;
+      line-height: 19px;
+      letter-spacing: 0.1em;
+      color: white;
+      text-shadow: 0px 0px 7px rgba(255, 255, 255, 0.75);
+      text-transform: uppercase;
+      top: 106px;
+      left: 50%;
+      text-align: center;
+      transform: translateX(-50%);
+    }
+  }
+}
