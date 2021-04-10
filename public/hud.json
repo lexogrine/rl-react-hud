@@ -1,0 +1,13 @@
+{
+    "name":"Lexo HUD",
+    "version":"1.0.0",
+    "author":"Kacper Herchel",
+    "game":"rocketleague",
+    "legacy": false,
+    "radar": false,
+    "killfeed": false,
+    "boltobserv":{
+        "css":false,
+        "maps":false
+    }
+}

@@ -139,7 +139,7 @@ function App() {
     }
 
     socket.on("readyToRegister", () => {
-      socket.emit("register", name, isDev);
+      socket.emit("register", name, isDev, "rocketleague");
     });
     socket.on(`hud_config`, (data: any) => {
       configs.save(data);
