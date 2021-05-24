@@ -14,8 +14,10 @@ const TeamBox = (props: Props) => {
 
   const createPlayerBox = (player: any) => (
     <div className={"player-box " + side}>
-      {avatars[player.name]?.url && (
+      {avatars[player.name]?.url ? (
         <img src={avatars[player.name]?.url} alt="" className="avatar" />
+      ) : (
+        <div className="avatar" />
       )}
       <img
         alt="Player"
