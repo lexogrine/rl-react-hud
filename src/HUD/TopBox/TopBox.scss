@@ -62,6 +62,23 @@
       }
     }
 
+    .team-image {
+      position: absolute;
+      width: 120px;
+      height: 61px;
+      background-size: cover;
+      top: 16px;
+
+      &.blue {
+        clip-path: polygon(5px 0px, 120px 0px, 120px 61px, 25px 61px);
+        left: 40px;
+      }
+      &.orange {
+        clip-path: polygon(0px 0px, 115px 0px, 95px 61px, 0px 61px);
+        right: 40px;
+      }
+    }
+
     .match-name {
       position: absolute;
       font-family: Rajdhani;
