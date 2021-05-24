@@ -36,17 +36,19 @@ const TopBox = (props: Props) => {
           alt="Top box background"
         />
         {blueTeamId !== undefined && (
-          <img
-            src={`${apiUrl}api/teams/logo/${blueTeamId}`}
+          <div
+            style={{
+              backgroundImage: `url(${apiUrl}api/teams/logo/${blueTeamId})`,
+            }}
             className="team-image blue"
-            alt="Blue team logo"
           />
         )}
         {orangeTeamId !== undefined && (
-          <img
-            src={`${apiUrl}api/teams/logo/${orangeTeamId}`}
+          <div
+            style={{
+              backgroundImage: `url(${apiUrl}api/teams/logo/${orangeTeamId})`,
+            }}
             className="team-image orange"
-            alt="Orange team logo"
           />
         )}
         <span className="time">
