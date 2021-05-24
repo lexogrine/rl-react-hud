@@ -11,8 +11,7 @@ import "./index.css";
 export const actions = new ActionManager();
 export const configs = new ConfigManager();
 
-// TEMP! CHANGE TO LOCALHOST
-export const socket = io(isDev ? `192.168.1.235:${port}` : "/");
+export const socket = io(isDev ? `localhost:${port}` : "/");
 
 interface DataLoader {
   match: Promise<void> | null;
@@ -29,8 +28,8 @@ function App() {
 
     const final = playersToExtend.map((p: Player) => {
       loadAvatarURL(p.name); // Loading player avatars, placed here because why not
-      const found = playerExtension.find((e) => e.steamid === p.name);
-      console.log(found);
+      const found =
+        playerExtension && playerExtension.find((e) => e.steamid === p.name);
       if (!found) return p;
       const merged = {
         ...p,

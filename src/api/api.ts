@@ -8,7 +8,8 @@ export const isDev = !query.isProd;
 
 // TEMP! CHANGE TO LOCALHOST
 export const config = {
-  apiAddress: isDev ? `http://192.168.1.235:${port}/` : "/",
+  apiAddress: isDev ? `http://localhost:${port}/` : "/",
+  //   apiAddress: isDev ? `http://192.168.1.235:${port}/` : "/",
 };
 export const apiUrl = config.apiAddress;
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { apiUrl } from "../../api/api";
 import "./TopBox.scss";
 
 interface Props {
@@ -8,11 +9,21 @@ interface Props {
   label?: string;
   blueTeamName?: string;
   orangeTeamName?: string;
+  blueTeamId?: number;
+  orangeTeamId?: number;
 }
 
 const TopBox = (props: Props) => {
-  const { time, blueScore, orangeScore, label, blueTeamName, orangeTeamName } =
-    props;
+  const {
+    time,
+    blueScore,
+    orangeScore,
+    label,
+    blueTeamName,
+    orangeTeamName,
+    blueTeamId,
+    orangeTeamId,
+  } = props;
   const minutes = time ? Math.floor(time / 60) % 60 : 0;
   const seconds = time ? Math.floor(time) % 60 : 0;
 
@@ -24,6 +35,20 @@ const TopBox = (props: Props) => {
           className="top-box-background"
           alt="Top box background"
         />
+        {blueTeamId !== undefined && (
+          <img
+            src={`${apiUrl}api/teams/logo/${blueTeamId}`}
+            className="team-image blue"
+            alt="Blue team logo"
+          />
+        )}
+        {orangeTeamId !== undefined && (
+          <img
+            src={`${apiUrl}api/teams/logo/${orangeTeamId}`}
+            className="team-image orange"
+            alt="Orange team logo"
+          />
+        )}
         <span className="time">
           {minutes}:{seconds < 10 ? "0" + seconds : seconds}
         </span>
