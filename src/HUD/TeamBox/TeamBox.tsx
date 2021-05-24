@@ -14,14 +14,14 @@ const TeamBox = (props: Props) => {
 
   const createPlayerBox = (player: any) => (
     <div className={"player-box " + side}>
-      <img src={avatars[player.name]?.url} alt="" className="avatar" />
+      {avatars[player.name]?.url && (
+        <img src={avatars[player.name]?.url} alt="" className="avatar" />
+      )}
       <img
         alt="Player"
         className="background"
         src={
-          side === "blue"
-            ? "images/playerBlue.png"
-            : "images/playerOrange.png"
+          side === "blue" ? "images/playerBlue.png" : "images/playerOrange.png"
         }
       />
       <div className="name">{player.name}</div>
@@ -43,7 +43,7 @@ const TeamBox = (props: Props) => {
     </div>
   );
 
-  if(!players) return null;
+  if (!players) return null;
   return (
     <div className={"team-box " + side}>{players.map(createPlayerBox)}</div>
   );
