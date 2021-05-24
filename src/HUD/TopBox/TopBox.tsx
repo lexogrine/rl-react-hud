@@ -11,14 +11,8 @@ interface Props {
 }
 
 const TopBox = (props: Props) => {
-  const {
-    time,
-    blueScore,
-    orangeScore,
-    label,
-    blueTeamName,
-    orangeTeamName,
-  } = props;
+  const { time, blueScore, orangeScore, label, blueTeamName, orangeTeamName } =
+    props;
   const minutes = time ? Math.floor(time / 60) % 60 : 0;
   const seconds = time ? Math.floor(time) % 60 : 0;
 
@@ -37,7 +31,11 @@ const TopBox = (props: Props) => {
         <span className="score orange">{orangeScore}</span>
         <span className="team-name blue">{blueTeamName || "Team 1"}</span>
         <span className="team-name orange">{orangeTeamName || "Team 2"}</span>
-        <span className="match-name">{label || "Game"}</span>
+        <span className="match-name">
+          {label && label?.length > 10
+            ? `${label?.slice(0, 10)}...`
+            : label || "Game"}
+        </span>
       </div>
     </div>
   );
