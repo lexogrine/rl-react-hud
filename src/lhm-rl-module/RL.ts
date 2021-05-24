@@ -85,7 +85,6 @@ export default class RL {
         const file = null;
         try {
           const parsed: ExtendedRLEvent[] = example as any;
-          console.log(parsed.length);
           this.eventQueue = parsed.map((x) => ({
             ...x,
             timestamp: new Date(x.timestamp),

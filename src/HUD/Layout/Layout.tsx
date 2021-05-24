@@ -16,8 +16,6 @@ const Layout = (props: Props) => {
   if (!props.game) return null;
 
   const { game, ballHit, players, teams } = props;
-
-  console.log("gamegame", game);
   return (
     <div className="layout">
       <TopBox
@@ -31,12 +29,12 @@ const Layout = (props: Props) => {
       <TeamBox
         side="blue"
         lastBallHit={ballHit}
-        players={players.filter((p: Player) => p.team === 0)}
+        players={players?.filter((p: Player) => p.team === 0)}
       />
       <TeamBox
         side="orange"
         lastBallHit={ballHit}
-        players={players.filter((p: Player) => p.team === 1)}
+        players={players?.filter((p: Player) => p.team === 1)}
       />
     </div>
   );

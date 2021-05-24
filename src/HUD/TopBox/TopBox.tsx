@@ -26,7 +26,7 @@ const TopBox = (props: Props) => {
     <div className="top-box">
       <div className="inner-container">
         <img
-          src="/images/top.png"
+          src="images/top.png"
           className="top-box-background"
           alt="Top box background"
         />

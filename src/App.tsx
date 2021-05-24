@@ -30,14 +30,15 @@ function App() {
       loadAvatarURL(p.name); // Loading player avatars, placed here because why not
       const found = playerExtension.find((e) => e.steamid === p.name);
       if (!found) return p;
-      return { ...p, ...found };
+      const merged = { ...p, ...found, name: found.username || p.name, team: p.team, teamId: found.team };
+      return merged;
     });
 
     setGame({
-      ...data,
-      teams: data.teams.map((t: RawTeam, index: number) => ({
+      ...data.game,
+      teams: data.game.teams?.map((t: RawTeam, index: number) => ({
         ...t,
-        players: final.filter((p) => p.team === index),
+        players: final.filter((p) => p && p.team && p.team === index),
       })),
     });
     setPlayers(final);
@@ -55,41 +56,34 @@ function App() {
             }
             setMatch(m);
 
-            if (match.left.id) {
-              api.teams.getOne(match.left.id).then((left) => {
+            if (m.left.id) {
+              api.teams.getOne(m.left.id).then((left) => {
                 const gsiTeamData = {
                   id: left._id,
                   name: left.name,
                   country: left.country,
                   logo: left.logo,
-                  map_score: match.left.wins,
+                  map_score: m.left.wins,
                   extra: left.extra,
                   color_primary: game?.teams?.[0].color_primary,
                   color_secondary: game?.teams?.[0].color_secondary,
                 };
-
-                setTeams({
-                  blue: gsiTeamData,
-                  orange: teams.orange,
-                });
+                setBlueTeam(gsiTeamData);
               });
             }
-            if (match.right.id) {
-              api.teams.getOne(match.right.id).then((right) => {
+            if (m.right.id) {
+              api.teams.getOne(m.right.id).then((right) => {
                 const gsiTeamData = {
                   id: right._id,
                   name: right.name,
                   country: right.country,
                   logo: right.logo,
-                  map_score: match.right.wins,
+                  map_score: m.right.wins,
                   extra: right.extra,
                   color_primary: game?.teams?.[1].color_primary,
                   color_secondary: game?.teams?.[1].color_secondary,
                 };
-                setTeams({
-                  orange: gsiTeamData,
-                  blue: teams.blue,
-                });
+                setOrangeTeam(gsiTeamData);
               });
             }
           })
@@ -117,10 +111,12 @@ function App() {
     { event: "game:ball_hit", func: setBallHit },
   ]);
   const [RLI, setRLI] = useState<RL | null>(new RL({ listeners }));
-  const [teams, setTeams] = useState<{ blue: any; orange: any }>({
-    blue: null,
-    orange: null,
-  });
+  // const [teams, setTeams] = useState<{ blue: any; orange: any }>({
+  //   blue: null,
+  //   orange: null,
+  // });
+  const [blueTeam, setBlueTeam] = useState<any>(null);
+  const [orangeTeam, setOrangeTeam] = useState<any>(null);
 
   useEffect(() => {
     const href = window.location.href;
@@ -160,6 +156,8 @@ function App() {
     socket.on("match", () => {
       loadMatch(true);
     });
+
+    loadMatch(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -183,7 +181,7 @@ function App() {
 
   return (
     <div className="App">
-      <Layout game={game} ballHit={ballHit} players={players} teams={teams} />
+      <Layout game={game} ballHit={ballHit} players={players} teams={{ blue: blueTeam, orange: orangeTeam }} />
     </div>
   );
 }

@@ -20,8 +20,8 @@ const TeamBox = (props: Props) => {
         className="background"
         src={
           side === "blue"
-            ? "/images/playerBlue.png"
-            : "/images/playerOrange.png"
+            ? "images/playerBlue.png"
+            : "images/playerOrange.png"
         }
       />
       <div className="name">{player.name}</div>
@@ -37,12 +37,13 @@ const TeamBox = (props: Props) => {
         <span className="datum">Assists</span>
         <span className="datum">{player.assists}</span>
       </div>
-      {lastBallHit && lastBallHit.player.name === player.name && (
-        <img className="ball" src="/images/ball.png" alt="ball" />
+      {lastBallHit && lastBallHit.player.id === player.id && (
+        <img className="ball" src="images/ball.png" alt="ball" />
       )}
     </div>
   );
 
+  if(!players) return null;
   return (
     <div className={"team-box " + side}>{players.map(createPlayerBox)}</div>
   );
