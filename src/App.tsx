@@ -11,7 +11,8 @@ import "./index.css";
 export const actions = new ActionManager();
 export const configs = new ConfigManager();
 
-export const socket = io(isDev ? `localhost:${port}` : "/");
+// TEMP! CHANGE TO LOCALHOST
+export const socket = io(isDev ? `192.168.1.235:${port}` : "/");
 
 interface DataLoader {
   match: Promise<void> | null;
@@ -30,7 +31,13 @@ function App() {
       loadAvatarURL(p.name); // Loading player avatars, placed here because why not
       const found = playerExtension.find((e) => e.steamid === p.name);
       if (!found) return p;
-      const merged = { ...p, ...found, name: found.username || p.name, team: p.team, teamId: found.team };
+      const merged = {
+        ...p,
+        ...found,
+        name: found.username || p.name,
+        team: p.team,
+        teamId: found.team,
+      };
       return merged;
     });
 
@@ -181,7 +188,12 @@ function App() {
 
   return (
     <div className="App">
-      <Layout game={game} ballHit={ballHit} players={players} teams={{ blue: blueTeam, orange: orangeTeam }} />
+      <Layout
+        game={game}
+        ballHit={ballHit}
+        players={players}
+        teams={{ blue: blueTeam, orange: orangeTeam }}
+      />
     </div>
   );
 }
