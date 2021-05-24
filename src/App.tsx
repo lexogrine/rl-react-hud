@@ -30,6 +30,7 @@ function App() {
     const final = playersToExtend.map((p: Player) => {
       loadAvatarURL(p.name); // Loading player avatars, placed here because why not
       const found = playerExtension.find((e) => e.steamid === p.name);
+      console.log(found);
       if (!found) return p;
       const merged = {
         ...p,
