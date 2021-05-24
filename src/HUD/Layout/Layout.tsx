@@ -24,6 +24,8 @@ const Layout = (props: Props) => {
         orangeScore={game.teams[1]?.score}
         blueTeamName={teams.blue?.name}
         orangeTeamName={teams.orange?.name}
+        blueTeamId={teams.blue?.id}
+        orangeTeamId={teams.orange?.id}
         label={game.arena?.replace(/_/g, " ")}
       />
       <TeamBox
