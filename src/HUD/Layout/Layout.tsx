@@ -19,7 +19,7 @@ const Layout = (props: Props) => {
   return (
     <div className="layout">
       <TopBox
-        time={game.time}
+        time={game.time || game.time_seconds || game.time_milliseconds}
         blueScore={game.teams[0]?.score}
         orangeScore={game.teams[1]?.score}
         blueTeamName={teams.blue?.name}

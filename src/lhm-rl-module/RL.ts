@@ -277,6 +277,7 @@ export default class RL {
         replay_end: () => ({ description: "Replay end" }),
         replay_will_end: () => ({ description: "Replay will end" }),
         update_state: (data: UpdateStateEvent) => {
+          console.log('State update:', data)
           if (data.hasGame) {
             if (!data.game) {
               error("Missing game data from event");
