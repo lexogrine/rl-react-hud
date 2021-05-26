@@ -8,6 +8,7 @@ interface Props {
   players: any[];
 }
 
+        //{/*<img src={avatars[player.steamid]?.url} alt="" className="avatar" />*/}
 // TODO: Add interfaces
 const TeamBox = (props: Props) => {
   const { side, lastBallHit, players } = props;
@@ -16,7 +17,7 @@ const TeamBox = (props: Props) => {
   const createPlayerBox = (player: any) => (
     <div className={"player-box " + side}>
       {avatars[player.steamid]?.url ? (
-        <img src={avatars[player.steamid]?.url} alt="" className="avatar" />
+        <div className="avatar" style={{ backgroundImage: `url('${avatars[player.steamid]?.url}')` }} />
       ) : (
         <div className="avatar" />
       )}
