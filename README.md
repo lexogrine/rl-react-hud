@@ -17,7 +17,7 @@ Fullfledged example of the React HUD made for HUD Manager for Rocket League. For
 
 # Download
 
-To download it just click here: [DOWNLOAD HUD](https://github.com/lexogrine/csgo-react-hud/releases/latest)
+To download it just click here: [DOWNLOAD HUD](https://github.com/lexogrine/rl-react-hud/releases/latest)
 
 # Instruction
 ## Setting up
