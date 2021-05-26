@@ -169,8 +169,6 @@ export default class RL {
     switch (event.name) {
       case "game:update_state":
         const data = event.data;
-        log('Debug event:', event)
-        log('Debug data:', event.data)
         if (data.hasGame) {
           if (!data.game) {
             error("Missing game data from event");
@@ -178,7 +176,6 @@ export default class RL {
             this.updatePlayers(data.players);
             this.updateGame(data.game);
             modifiedData = { ...modifiedData, game: this.game };
-            log('Debug final data:', modifiedData)
           }
         } else {
           log('Game reset')
