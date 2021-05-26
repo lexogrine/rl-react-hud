@@ -11,6 +11,7 @@ interface Props {
 // TODO: Add interfaces
 const TeamBox = (props: Props) => {
   const { side, lastBallHit, players } = props;
+  console.log('AVS', avatars);
 
   const createPlayerBox = (player: any) => (
     <div className={"player-box " + side}>
