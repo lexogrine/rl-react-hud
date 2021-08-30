@@ -3,19 +3,25 @@ import React from "react";
 import TopBox from "../TopBox";
 import TeamBox from "../TeamBox";
 import { Player } from "../../lhm-rl-module";
+import { Match } from "../../api/interfaces";
 
 interface Props {
   game: any;
   ballHit: any;
   players: any;
   teams: any;
+  match: Match | null;
 }
 
 // TODO: Add interfaces
 const Layout = (props: Props) => {
   if (!props.game) return null;
 
-  const { game, ballHit, players, teams } = props;
+  const { game, ballHit, players, teams, match } = props;
+  let bo = 'bo1';
+  if(match && match.matchType) {
+    bo = match.matchType;
+  }
   return (
     <div className="layout">
       <TopBox

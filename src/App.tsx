@@ -189,6 +189,7 @@ function App() {
   return (
     <div className="App">
       <Layout
+        match={match}
         game={game}
         ballHit={ballHit}
         players={players}

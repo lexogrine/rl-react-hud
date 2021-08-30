@@ -47,6 +47,8 @@ export interface Match {
     id: string | null;
     wins: number;
   };
+  matchType: 'bo1' | 'bo2' | 'bo3' | 'bo5' | 'bo7' | 'bo9';
+  startTime: number;
   right: {
     id: string | null;
     wins: number;
