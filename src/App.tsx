@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RL, { Player, RawTeam } from "./lhm-rl-module"; // TODO: Make an actual module out of this. Hubert pls help.
+import RL, { Player, RawTeam, StatfeedEvent } from "./lhm-rl-module";
 import Layout from "./HUD/Layout";
 import api, { port, isDev } from "./api/api";
 import { loadAvatarURL } from "./api/avatars";
@@ -21,6 +21,11 @@ const dataLoader: DataLoader = {
   match: null,
 };
 
+enum MatchStates {
+  InProgress,
+  PostGame,
+}
+
 function App() {
   const parseAndUpdateGame = async (data: any) => {
     const playerExtension = await api.players.get();
@@ -29,7 +34,9 @@ function App() {
     const final = playersToExtend.map((p: Player) => {
       loadAvatarURL(p.name); // Loading player avatars, placed here because why not
       const found =
-        playerExtension && playerExtension.find((e) => e.steamid === p.name);
+        playerExtension && playerExtension.find((e) => e.steamid?.toLowerCase() === p.name?.toLowerCase());
+        // Let's see if this helps with avatar loading issues
+
       if (!found) return p;
       const merged = {
         ...p,
@@ -101,27 +108,31 @@ function App() {
     }
   };
 
-  /*
-  const [WS, setWS] = useState<WebSocket | null>(
-    new WebSocket("ws://192.168.1.235:49122")
-  );
-  */
+  const handleStatfeedEvent = (data: StatfeedEvent) => {
+    setStatfeedEvents((prev) => [...prev, { ...data, timestamp: Date.now() }]);
+  }
 
   const [game, setGame] = useState<any>(null);
   const [match, setMatch] = useState<any>(null);
   const [ballHit, setBallHit] = useState<any>(null);
   const [players, setPlayers] = useState<any>(null);
-  const [listeners, setListeners] = useState<
+  const [replay, setReplay] = useState<boolean>(false);
+  const [matchState, setMatchState] = useState<MatchStates>(MatchStates.InProgress);
+  const [statfeedEvents, setStatfeedEvents] = useState<StatfeedEvent[]>([]);
+  const [listeners, _setListeners] = useState<
     { event: string; func: (data: any) => void }[]
   >([
     { event: "game:update_state", func: parseAndUpdateGame },
     { event: "game:ball_hit", func: setBallHit },
+    { event: "game:replay_start", func: () => setReplay(true) },
+    { event: "game:replay_end", func: () => setReplay(false) },
+    { event: "game:statfeed_event", func: handleStatfeedEvent },
+    { event: "game:podium_start", func: () => setMatchState(MatchStates.PostGame) },
+    { event: "game:match_destroyed", func: () => { setMatch(null); setGame(null); setMatchState(MatchStates.InProgress) } },
+    { event: "game:round_started_go", func: () => setMatchState(MatchStates.InProgress) },
   ]);
-  const [RLI, setRLI] = useState<RL | null>(new RL({ listeners }));
-  // const [teams, setTeams] = useState<{ blue: any; orange: any }>({
-  //   blue: null,
-  //   orange: null,
-  // });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [RLI, _setRLI] = useState<RL | null>(new RL({ listeners }));
   const [blueTeam, setBlueTeam] = useState<any>(null);
   const [orangeTeam, setOrangeTeam] = useState<any>(null);
 
@@ -155,7 +166,7 @@ function App() {
     });
 
     socket.on("refreshHUD", () => {
-      window.top.location.reload();
+      window.top?.location.reload();
     });
 
     socket.on("update", (data: string) => RLI?.feed(data));
@@ -168,32 +179,19 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /*
-  useEffect(() => {
-    if (!WS) {
-      console.log("No WebSocket available!");
-      return;
-    }
-
-    WS.onopen = () => console.log("Connection opened.");
-    WS.onmessage = (message: any) => RLI?.feed(message.data);
-    WS.onclose = () => {
-      console.log("Connection closed. Attempting to reconnect...");
-      setWS(new WebSocket("ws://192.168.1.235:499"));
-    };
-  }, [WS]);
-  */
-
   if (!game) return null;
 
   return (
     <div className="App">
       <Layout
-        match={match}
         game={game}
         ballHit={ballHit}
         players={players}
         teams={{ blue: blueTeam, orange: orangeTeam }}
+        isReplay={replay}
+        statfeedEvents={statfeedEvents}
+        matchState={matchState}
+        isOvertime={game.isOT}
       />
     </div>
   );

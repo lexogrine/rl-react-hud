@@ -1,0 +1,131 @@
+@keyframes replay-box-title-fadein {
+  0% {
+    width: 0px;
+    color: #ff3c4300;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    width: 196px;
+    color: #ff3c4300;
+  }
+  100% {
+    width: 196px;
+    color: #ff3c43ff;
+  }
+}
+
+@keyframes replay-box-fadein {
+  0% {
+    outline: 0px solid #ff3b43;
+    outline-offset: 0px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    outline: 16px solid #ff3b43;
+    outline-offset: -8px;
+  }
+}
+
+@keyframes replay-box-fadeout {
+  0% {
+    outline: 16px solid #ff3b43;
+    outline-offset: -8px;
+  }
+  80% {
+    outline: 0px solid #ff3b43;
+    outline-offset: 0px;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes replay-box-blink {
+  0% {
+    color: #ff3c4300;
+  }
+  49% {
+    color: #ff3c4300;
+  }
+  50% {
+    color: #ff3c43ff;
+  }
+  99% {
+    color: #ff3c43ff;
+  }
+  100% {
+    color: #ff3c4300;
+  }
+}
+
+@keyframes fadein-layout {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.layout {
+  opacity: 0;
+  animation: fadein-layout 0.6s ease-in;
+  animation-fill-mode: forwards;
+}
+
+.replay-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  // outline: 8px solid #FF3B43;
+  // outline-offset: -8px;
+
+  .replay-box-title {
+    position: absolute;
+    left: 30px;
+    top: 16px;
+    width: 196px;
+    height: 61px;
+    background: rgba(0, 0, 0, 0.9);
+    background-position: -12px center;
+    background-repeat: no-repeat;
+
+    font-family: Orbitron;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 61px;
+    text-align: right;
+
+    /* identical to box height */
+    text-align: right;
+    padding-right: 20px;
+    letter-spacing: 0.1em;
+
+    color: #ff3c43;
+
+    text-shadow: 0px 0px 30px #ff464d;
+  }
+
+  &.hide {
+    animation: replay-box-fadeout 0.07s ease-in;
+    animation-fill-mode: forwards;
+  }
+
+  &.show {
+    animation: replay-box-fadein 0.07s ease-in;
+    animation-fill-mode: forwards;
+
+    .replay-box-title {
+      animation: replay-box-title-fadein 0.5s ease-in-out,
+        replay-box-blink 2s ease-in-out infinite;
+    }
+  }
+}

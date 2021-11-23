@@ -2,28 +2,42 @@ import React from "react";
 
 import TopBox from "../TopBox";
 import TeamBox from "../TeamBox";
-import { Player } from "../../lhm-rl-module";
-import { Match } from "../../api/interfaces";
+import { Player, StatfeedEvent } from "../../lhm-rl-module";
+
+import './Layout.scss';
+import Scoreboard from "../Scoreboard";
+
+enum MatchStates {
+  InProgress,
+  PostGame,
+}
 
 interface Props {
   game: any;
   ballHit: any;
   players: any;
   teams: any;
-  match: Match | null;
+  isReplay: boolean;
+  isOvertime: boolean;
+  statfeedEvents: StatfeedEvent[];
+  matchState: MatchStates;
 }
 
 // TODO: Add interfaces
 const Layout = (props: Props) => {
   if (!props.game) return null;
 
-  const { game, ballHit, players, teams, match } = props;
-  let bo = 'bo1';
-  if(match && match.matchType) {
-    bo = match.matchType;
-  }
+  const { game, ballHit, players, teams, isReplay, statfeedEvents, isOvertime } = props;
   return (
     <div className="layout">
+      <div className={`replay-box ${isReplay ? 'show' : 'hide'}`}>
+        <div
+          className="replay-box-title"
+          style={{ backgroundImage: `url('images/replay.svg')` }}
+        >
+          Replay
+        </div>
+      </div>
       <TopBox
         time={game.time || game.time_seconds || game.time_milliseconds}
         blueScore={game.teams[0]?.score}
@@ -33,17 +47,24 @@ const Layout = (props: Props) => {
         blueTeamId={teams.blue?.id}
         orangeTeamId={teams.orange?.id}
         label={game.arena?.replace(/_/g, " ")}
+        isOvertime={isOvertime}
       />
+      {props.matchState !== MatchStates.PostGame && (<>
       <TeamBox
         side="blue"
         lastBallHit={ballHit}
         players={players?.filter((p: Player) => p.team === 0)}
+        statfeedEvents={statfeedEvents.filter((e: StatfeedEvent) => e.main_target.team_num === 0)}
       />
       <TeamBox
         side="orange"
         lastBallHit={ballHit}
         players={players?.filter((p: Player) => p.team === 1)}
-      />
+        statfeedEvents={statfeedEvents.filter((e: StatfeedEvent) => e.main_target.team_num === 1)}
+      /></>)}
+      {props.matchState === MatchStates.PostGame && <Scoreboard
+        players={players}
+      />}
     </div>
   );
 };

@@ -11,6 +11,7 @@ interface Props {
   orangeTeamName?: string;
   blueTeamId?: number;
   orangeTeamId?: number;
+  isOvertime?: boolean;
 }
 
 const TopBox = (props: Props) => {
@@ -23,6 +24,7 @@ const TopBox = (props: Props) => {
     orangeTeamName,
     blueTeamId,
     orangeTeamId,
+    isOvertime
   } = props;
   const minutes = time ? Math.floor(time / 60) % 60 : 0;
   const seconds = time ? Math.floor(time) % 60 : 0;
@@ -54,6 +56,7 @@ const TopBox = (props: Props) => {
         <span className="time">
           {minutes}:{seconds < 10 ? "0" + seconds : seconds}
         </span>
+        {isOvertime && <span className="overtime">Overtime</span>}
         <span className="score blue">{blueScore}</span>
         <span className="score orange">{orangeScore}</span>
         <span className="team-name blue">{blueTeamName || "Team 1"}</span>

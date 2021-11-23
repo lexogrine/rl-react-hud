@@ -190,7 +190,7 @@ export default class RL {
     if (event.logLevel === undefined || event.logLevel >= 1) {
       log(
         `[${event.timestamp.toISOString()}] ${event.name} >`,
-        event.description
+        event.description, event.data
       );
     }
 
@@ -266,7 +266,7 @@ export default class RL {
         statfeed_event: (data: StatfeedEvent) => ({
           description: "Statfeed event",
           data,
-          logLevel: EventLogLevel.VERBOSE,
+          // logLevel: EventLogLevel.VERBOSE,
         }),
         pre_countdown_begin: () => ({ description: "Countdown is starting" }),
         post_countdown_begin: () => ({ description: "Countdown has started" }),
@@ -274,7 +274,7 @@ export default class RL {
         replay_end: () => ({ description: "Replay end" }),
         replay_will_end: () => ({ description: "Replay will end" }),
         update_state: (data: UpdateStateEvent) => {
-          console.log('State update:', data)
+          // console.log('State update:', data)
           if (data.hasGame) {
             if (!data.game) {
               error("Missing game data from event");

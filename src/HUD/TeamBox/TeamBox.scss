@@ -1,37 +1,159 @@
+@keyframes ball-hit-animation {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ball-hit-fadeout {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes statfeed-event-fadein {
+  0% {
+    width: 0px;
+    color: #ffffff00;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    width: 190px;
+    color: #ffffff00;
+  }
+  100% {
+    width: 190px;
+    color: #ffffffff;
+  }
+}
+
+@keyframes statfeed-event-fadeout {
+  // 0% {
+  //   width: 190px;
+  //   color: #ffffffff;
+  // }
+  // 10% {
+  //   opacity: 1;
+  // }
+  80% {
+    width: 0px;
+    color: #ffffff00;
+  }
+  100% {
+    width: 0px;
+    color: #ffffff00;
+    opacity: 0;
+  }
+}
+
+@keyframes data-outer-container-fadein {
+  0% {
+    width: 0px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    width: 140px;
+  }
+}
+
+@keyframes data-outer-container-fadeout {
+  0% {
+    width: 140px;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    width: 0px;
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 0px) rotate(0deg);
+  }
+  10% {
+    transform: translate(0px, -1px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-1px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  40% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(0px, 1px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-1px, 0px) rotate(0deg);
+  }
+  70% {
+    transform: translate(1px, 0px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, 0px) rotate(1deg);
+  }
+  90% {
+    transform: translate(0px, 1px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -1px) rotate(-1deg);
+  }
+}
+
 .team-box {
   position: absolute;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
   display: flex;
-  width: 130px;
   height: 100vh;
 
   .ball {
     position: absolute;
+    animation: ball-hit-animation 0.1s ease-out, ball-hit-fadeout 5s linear;
   }
 
   &.blue {
     left: 12px;
     .ball {
-      left: 250px;
+      left: 280px;
     }
   }
 
   &.orange {
     right: 12px;
     .ball {
-      right: 250px;
+      right: 280px;
     }
   }
 
   .player-box {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 130px;
-    justify-content: center;
-    margin: 32px;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px;
 
     .avatar {
       background: black;
@@ -41,6 +163,50 @@
       width: 90px;
       background-position: center;
       background-size: cover;
+    }
+
+    .data-outer-container {
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 140px;
+      z-index: -10;
+      flex-shrink: 0;
+
+      &.show {
+        animation: data-outer-container-fadein 0.5s ease-in-out;
+        animation-fill-mode: forwards;
+      }
+
+      &.hide {
+        animation: data-outer-container-fadeout 0.5s ease-in-out;
+        animation-fill-mode: forwards;
+      }
+    }
+
+    .boost-meter {
+      width: 100%;
+      height: 15px;
+      position: relative;
+
+      .grey {
+        width: 100%;
+        height: 100%;
+        background-position: left center;
+        background-repeat: no-repeat;
+      }
+
+      .fill {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-position: left center;
+        background-repeat: no-repeat;
+        left: 0;
+        top: 0;
+        transition: 0.05s linear all;
+      }
     }
 
     .data-box {
@@ -58,18 +224,78 @@
       }
     }
 
-    .name {
-      width: 130px;
+    .name-box {
+      display: flex;
+      flex-direction: row;
       font-size: 22px;
       font-family: Rajdhani;
       font-weight: bold;
       color: white;
       text-transform: uppercase;
+      width: 100%;
+    }
+
+    .shake {
+      animation: shake 0.5s linear infinite;
+    }
+
+    .boost-num {
+      width: 40px;
+
+      &.very-high {
+        color: #ffd9c0;
+      }
+
+      &.high {
+        color: #ffeb85;
+      }
+
+      &.low {
+        color: #f6820b;
+      }
+
+      &.critical {
+        color: #ff464d;
+      }
     }
 
     .background {
       position: absolute;
       z-index: -1;
+    }
+
+    .statfeed-event {
+      position: absolute;
+      width: 190px;
+      // width: 0;
+      // opacity: 0;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+
+      font-family: Rajdhani;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 30px;
+      line-height: 38px;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+
+      color: #ffffff;
+
+      background-repeat: no-repeat;
+      background-position: left center;
+
+      &.show {
+        animation: statfeed-event-fadein 0.4s ease-in-out;
+        animation-fill-mode: forwards;
+      }
+
+      &.hide {
+        animation: statfeed-event-fadeout 0.4s ease-in-out;
+        animation-fill-mode: forwards;
+      }
     }
 
     &.blue {
@@ -83,6 +309,23 @@
       }
       .avatar {
         left: 5px;
+        border: 5px solid #007bef;
+      }
+      .data-outer-container {
+        padding: 12px 24px 12px 36px;
+      }
+      .statfeed-event {
+        background-color: #007befe5;
+        left: 100px;
+        justify-content: flex-start;
+        background-position: 110% 0%;
+      }
+      .name-box {
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+      .boost-num {
+        text-align: left;
       }
     }
 
@@ -93,11 +336,31 @@
       .background {
         right: 0;
       }
+      .avatar {
+        right: 5px;
+        border: 5px solid #fb7b07;
+      }
+      .data-outer-container {
+        padding: 12px 36px 12px 24px;
+      }
+      .boost-meter {
+        transform: scaleX(-1);
+      }
+      .statfeed-event {
+        background-color: #fb7b07e5;
+        right: 100px;
+        justify-content: flex-end;
+        background-position: -10% 0%;
+      }
+      .name-box {
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+      }
       .name {
         text-align: right;
       }
-      .avatar {
-        right: 5px;
+      .boost-num {
+        text-align: right;
       }
     }
   }

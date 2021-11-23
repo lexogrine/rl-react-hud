@@ -1,7 +1,13 @@
 {
-    "name":"Lexo HUD",
-    "version":"1.0.0",
-    "author":"Kacper Herchel",
+    "name":"Lexogrine HUD",
+    "version":"2.0.0",
+    "author":"Lexogrine",
     "game":"rocketleague",
-    "legacy": false
+    "legacy": false,
+    "radar": false,
+    "killfeed": false,
+    "boltobserv":{
+        "css":false,
+        "maps":false
+    }
 }

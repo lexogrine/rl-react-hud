@@ -63,7 +63,9 @@ export interface Team {
   players: Player[];
 }
 
-export interface Player extends RawPlayer {}
+export interface Player extends RawPlayer {
+  steamid?: string; // loaded from LHM
+}
 
 export interface RawPlayer {
   assists: number;
@@ -128,10 +130,12 @@ export interface GoalScoreEvent {
 }
 
 export interface StatfeedEvent {
+  event_name: string;
   main_target: { id: string; name: string; team_num: number };
   match_guid: string;
   secondary_target: { id: string; name: string; team_num: number };
   type: string;
+  timestamp?: number; // This is not in the statfeed data, but we add it here for convenience
 }
 
 export interface MatchCreatedEvent {
