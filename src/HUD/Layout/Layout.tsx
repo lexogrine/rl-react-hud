@@ -21,13 +21,14 @@ interface Props {
   isOvertime: boolean;
   statfeedEvents: StatfeedEvent[];
   matchState: MatchStates;
+  bestOf?: string;
 }
 
 // TODO: Add interfaces
 const Layout = (props: Props) => {
   if (!props.game) return null;
 
-  const { game, ballHit, players, teams, isReplay, statfeedEvents, isOvertime } = props;
+  const { game, ballHit, players, teams, isReplay, statfeedEvents, isOvertime, bestOf } = props;
   return (
     <div className="layout">
       <div className={`replay-box ${isReplay ? 'show' : 'hide'}`}>
@@ -46,7 +47,9 @@ const Layout = (props: Props) => {
         orangeTeamName={teams.orange?.name}
         blueTeamId={teams.blue?.id}
         orangeTeamId={teams.orange?.id}
-        label={game.arena?.replace(/_/g, " ")}
+        blueMatchScore={teams.blue?.map_score}
+        orangeMatchScore={teams.orange?.map_score}
+        label={bestOf || game.arena?.replace(/_/g, " ")}
         isOvertime={isOvertime}
       />
       {props.matchState !== MatchStates.PostGame && (<>

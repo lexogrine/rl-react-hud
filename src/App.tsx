@@ -192,6 +192,7 @@ function App() {
         statfeedEvents={statfeedEvents}
         matchState={matchState}
         isOvertime={game.isOT}
+        bestOf={match?.matchType}
       />
     </div>
   );

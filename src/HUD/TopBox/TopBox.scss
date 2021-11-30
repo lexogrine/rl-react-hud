@@ -4,6 +4,58 @@
   left: 50%;
   transform: translateX(-50%);
 
+  .match-score-box {
+    position: absolute;
+    top: 4px;
+    height: 80px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &.blue {
+      left: 494px;
+    }
+    &.orange {
+      right: 493px;
+    }
+
+    .match-score {
+      width: 6px;
+      margin: 2px;
+      background: white;
+      flex: 1;
+
+      &.empty {
+        opacity: 0.3;
+      }
+      
+      &.max {
+        &-1 {
+          height: calc(81px)
+        }
+        &-2 {
+          height: calc(81px / 2)
+        }
+        &-3 {
+          height: calc(81px / 3)
+        }
+        &-4 {
+          height: calc(81px / 4)
+        }
+        &-5 {
+          height: calc(81px / 5)
+        }
+        &-6 {
+          height: calc(81px / 6)
+        }
+        &-7 {
+          height: calc(81px / 6)
+        }
+      }
+    }
+  }
+
   .inner-container {
     position: relative;
 
