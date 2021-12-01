@@ -59,7 +59,9 @@ function App() {
   };
 
   const loadMatch = async (force = false) => {
+    console.log('[Match] Loading match...');
     if (!dataLoader.match || force) {
+    console.log('[Match] Forced =', force, '\n', dataLoader.match);
       dataLoader.match = new Promise((resolve) => {
         api.match
           .getCurrent()
@@ -69,6 +71,7 @@ function App() {
               return;
             }
             setMatch(m);
+            console.log('[Match] Setting match to', m);
 
             if (m.left.id) {
               api.teams.getOne(m.left.id).then((left) => {
@@ -82,9 +85,15 @@ function App() {
                   color_primary: game?.teams?.[0].color_primary,
                   color_secondary: game?.teams?.[0].color_secondary,
                 };
+                console.log('[Match] Setting left team to', gsiTeamData);
                 setBlueTeam(gsiTeamData);
               });
             }
+            else {
+              console.log('[Match] No left team, but setting left team wins to', m.left.wins);
+              setBlueTeam({ map_score: m.left.wins });
+            }
+
             if (m.right.id) {
               api.teams.getOne(m.right.id).then((right) => {
                 const gsiTeamData = {
@@ -97,12 +106,18 @@ function App() {
                   color_primary: game?.teams?.[1].color_primary,
                   color_secondary: game?.teams?.[1].color_secondary,
                 };
+                console.log('[Match] Setting right team to', gsiTeamData);
                 setOrangeTeam(gsiTeamData);
               });
             }
+            else {
+              console.log('[Match] No right team, but setting right team wins to', m.right.wins);
+              setOrangeTeam({ map_score: m.right.wins });
+            }
           })
-          .catch(() => {
+          .catch((e: any) => {
             dataLoader.match = null;
+            console.log('[Match] Error loading match', e);
           });
       });
     }
