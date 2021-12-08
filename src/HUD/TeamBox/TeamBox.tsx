@@ -1,6 +1,7 @@
 import React from "react";
 import { avatars } from "../../api/avatars";
 import { StatfeedEvent } from "../../lhm-rl-module";
+import CameraView from "../Camera/Camera";
 import "./TeamBox.scss";
 
 interface Props {
@@ -39,9 +40,9 @@ const TeamBox = (props: Props) => {
     return (
       <div className={"player-box " + side}>
         {avatars[player.steamid]?.url ? (
-          <div className="avatar" style={{ backgroundImage: `url('${avatars[player.steamid]?.url}')` }} />
+          <div className="avatar" style={{ backgroundImage: `url('${avatars[player.steamid]?.url}')` }}><CameraView steamid={player.steamid} visible={true} /></div>
         ) : (
-          <div className="avatar" />
+          <div className="avatar" ><CameraView steamid={player.steamid} visible={true} /></div>
         )}
         <div className={`data-outer-container ${visibleEvent ? 'hide' : 'show'}`}>
           <div className="name-box">

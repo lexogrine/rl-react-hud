@@ -7,6 +7,7 @@ import ActionManager, { ConfigManager } from "./api/actionManager";
 import io from "socket.io-client";
 
 import "./index.css";
+import { initiateConnection } from "./HUD/Camera/mediaStream";
 
 export const actions = new ActionManager();
 export const configs = new ConfigManager();
@@ -169,6 +170,7 @@ function App() {
 
     socket.on("readyToRegister", () => {
       socket.emit("register", name, isDev, "rocketleague");
+      initiateConnection();
     });
     socket.on(`hud_config`, (data: any) => {
       configs.save(data);

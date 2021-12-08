@@ -37,6 +37,9 @@ const api = {
     getOne: async (id: string): Promise<I.Team> => apiV2(`teams/${id}`),
     get: (): Promise<I.Team[]> => apiV2(`teams`),
   },
+  camera: {
+      get: (): Promise<{ availablePlayers: ({steamid:string, label: string})[], uuid: string }> => apiV2('camera')
+  },
   players: {
     get: async (): Promise<I.Player[]> => apiV2(`players`),
     getAvatarURLs: async (
