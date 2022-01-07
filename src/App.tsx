@@ -35,8 +35,11 @@ function App() {
     const final = playersToExtend.map((p: Player) => {
       loadAvatarURL(p.name); // Loading player avatars, placed here because why not
       const found =
-        playerExtension && playerExtension.find((e) => e.steamid?.toLowerCase() === p.name?.toLowerCase());
-        // Let's see if this helps with avatar loading issues
+        playerExtension &&
+        playerExtension.find(
+          (e) => e.steamid?.toLowerCase() === p.name?.toLowerCase()
+        );
+      // Let's see if this helps with avatar loading issues
 
       if (!found) return p;
       const merged = {
@@ -60,9 +63,9 @@ function App() {
   };
 
   const loadMatch = async (force = false) => {
-    console.log('[Match] Loading match...');
+    console.log("[Match] Loading match...");
     if (!dataLoader.match || force) {
-    console.log('[Match] Forced =', force, '\n', dataLoader.match);
+      console.log("[Match] Forced =", force, "\n", dataLoader.match);
       dataLoader.match = new Promise((resolve) => {
         api.match
           .getCurrent()
@@ -72,7 +75,7 @@ function App() {
               return;
             }
             setMatch(m);
-            console.log('[Match] Setting match to', m);
+            console.log("[Match] Setting match to", m);
 
             if (m.left.id) {
               api.teams.getOne(m.left.id).then((left) => {
@@ -86,12 +89,14 @@ function App() {
                   color_primary: game?.teams?.[0].color_primary,
                   color_secondary: game?.teams?.[0].color_secondary,
                 };
-                console.log('[Match] Setting left team to', gsiTeamData);
+                console.log("[Match] Setting left team to", gsiTeamData);
                 setBlueTeam(gsiTeamData);
               });
-            }
-            else {
-              console.log('[Match] No left team, but setting left team wins to', m.left.wins);
+            } else {
+              console.log(
+                "[Match] No left team, but setting left team wins to",
+                m.left.wins
+              );
               setBlueTeam({ map_score: m.left.wins });
             }
 
@@ -107,18 +112,20 @@ function App() {
                   color_primary: game?.teams?.[1].color_primary,
                   color_secondary: game?.teams?.[1].color_secondary,
                 };
-                console.log('[Match] Setting right team to', gsiTeamData);
+                console.log("[Match] Setting right team to", gsiTeamData);
                 setOrangeTeam(gsiTeamData);
               });
-            }
-            else {
-              console.log('[Match] No right team, but setting right team wins to', m.right.wins);
+            } else {
+              console.log(
+                "[Match] No right team, but setting right team wins to",
+                m.right.wins
+              );
               setOrangeTeam({ map_score: m.right.wins });
             }
           })
           .catch((e: any) => {
             dataLoader.match = null;
-            console.log('[Match] Error loading match', e);
+            console.log("[Match] Error loading match", e);
           });
       });
     }
@@ -126,26 +133,56 @@ function App() {
 
   const handleStatfeedEvent = (data: StatfeedEvent) => {
     setStatfeedEvents((prev) => [...prev, { ...data, timestamp: Date.now() }]);
-  }
+  };
 
   const [game, setGame] = useState<any>(null);
   const [match, setMatch] = useState<any>(null);
   const [ballHit, setBallHit] = useState<any>(null);
   const [players, setPlayers] = useState<any>(null);
   const [replay, setReplay] = useState<boolean>(false);
-  const [matchState, setMatchState] = useState<MatchStates>(MatchStates.InProgress);
+  const [matchState, setMatchState] = useState<MatchStates>(
+    MatchStates.InProgress
+  );
   const [statfeedEvents, setStatfeedEvents] = useState<StatfeedEvent[]>([]);
-  const [listeners, _setListeners] = useState<
+  const [showObserved, setShowObserved] = useState<boolean>(true);
+  const [listeners, setListeners] = useState<
     { event: string; func: (data: any) => void }[]
   >([
     { event: "game:update_state", func: parseAndUpdateGame },
     { event: "game:ball_hit", func: setBallHit },
-    { event: "game:replay_start", func: () => setReplay(true) },
+    {
+      event: "game:replay_start",
+      func: () => {
+        setReplay(true);
+        setShowObserved(false);
+      },
+    },
+    { event: "game:round_started_go", func: () => setShowObserved(true) },
     { event: "game:replay_end", func: () => setReplay(false) },
     { event: "game:statfeed_event", func: handleStatfeedEvent },
-    { event: "game:podium_start", func: () => setMatchState(MatchStates.PostGame) },
-    { event: "game:match_destroyed", func: () => { setMatch(null); setGame(null); setMatchState(MatchStates.InProgress) } },
-    { event: "game:round_started_go", func: () => setMatchState(MatchStates.InProgress) },
+    {
+      event: "game:podium_start",
+      func: () => setMatchState(MatchStates.PostGame),
+    },
+    {
+      event: "game:match_destroyed",
+      func: () => {
+        setMatch(null);
+        setGame(null);
+        setMatchState(MatchStates.InProgress);
+      },
+    },
+    {
+      event: "game:match_created",
+      func: () => {
+        console.log("reloading match test");
+        loadMatch(true);
+      },
+    },
+    {
+      event: "game:round_started_go",
+      func: () => setMatchState(MatchStates.InProgress),
+    },
   ]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [RLI, _setRLI] = useState<RL | null>(new RL({ listeners }));
@@ -210,6 +247,7 @@ function App() {
         matchState={matchState}
         isOvertime={game.isOT}
         bestOf={match?.matchType}
+        showObserved={showObserved}
       />
     </div>
   );

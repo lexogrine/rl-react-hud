@@ -19,6 +19,12 @@ code {
 }
 
 @font-face {
+  font-family: "RajdhaniL";
+  src: local("Rajdhani"),
+    url("./fonts/Rajdhani/Rajdhani-Light.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "RajdhaniM";
   src: local("RajdhaniM"),
     url("./fonts/Rajdhani/Rajdhani-Medium.ttf") format("truetype");
