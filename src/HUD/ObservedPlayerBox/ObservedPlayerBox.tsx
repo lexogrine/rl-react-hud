@@ -2,6 +2,7 @@ import React from "react";
 import { avatars } from "../../api/avatars";
 import { Player } from "../../lhm-rl-module";
 import CameraView from "../Camera/Camera";
+import CameraContainer from "../Camera/Container";
 
 import "./ObservedPlayerBox.scss";
 
@@ -29,11 +30,11 @@ const ObservedPlayerBox = (props: Props) => {
               backgroundImage: `url('${avatars[steamid]?.url}')`,
             }}
           >
-            <CameraView steamid={steamid} visible={true} />
+            <CameraContainer observedSteamid={steamid} />
           </div>
         ) : (
           <div className="avatar">
-            <CameraView steamid={steamid} visible={true} />
+            <CameraContainer observedSteamid={steamid} />
           </div>
         )}
       </div>
