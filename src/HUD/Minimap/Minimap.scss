@@ -1,0 +1,31 @@
+.minimap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 500px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  pointer-events: none;
+
+  .player {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+  }
+}
+
+.minimap3d {
+  position: absolute;
+  top: 100px;
+  left: 300px;
+  width: 900px;
+  height: 900px;
+  z-index: 1;
+  //   background-color: rgba(0, 0, 0, 1);
+  //   border: 2px solid red;
+  //   border-radius: 5px;
+  pointer-events: none;
+}
