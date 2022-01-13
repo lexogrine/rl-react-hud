@@ -56,6 +56,8 @@ const Layout = (props: Props) => {
 
   if (!props.game) return null;
 
+  const steamids = players?.filter((p: Player) => p.steamid)?.map((p: Player) => p.steamid) || [] as string[];
+
   return (
     <div className="layout">
       <div className={`replay-box ${isReplay ? "show" : "hide"}`}>
@@ -102,6 +104,7 @@ const Layout = (props: Props) => {
       <ObservedPlayerBox
         player={lastObservedPlayer || undefined}
         show={showObserved && !!game?.target}
+        steamids={steamids}
       />
       <Minimap players={players} ball={game.ball} />
       {props.matchState === MatchStates.PostGame && (
