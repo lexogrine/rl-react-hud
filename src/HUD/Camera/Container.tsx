@@ -4,14 +4,14 @@ import api from "../../api/api";
 
 
 
-const CameraContainer = ({ observedSteamid }: { observedSteamid: string | null }) => {
-    const [ players, setPlayers ] = useState<string[]>([]);
+const CameraContainer = ({ observedSteamid, players }: { observedSteamid: string | null, players: string[] }) => {
+    //const [ players, setPlayers ] = useState<string[]>([]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         api.camera.get().then(response => {
             setPlayers(response.availablePlayers.map(player => player.steamid));
         });
-    }, []);
+    }, []);*/
 
     return <div id="cameras-container">
         {
