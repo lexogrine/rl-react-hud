@@ -7,7 +7,6 @@ import { Player, StatfeedEvent } from "../../lhm-rl-module";
 
 import "./Layout.scss";
 import Scoreboard from "../Scoreboard";
-import Minimap from "../Minimap";
 
 enum MatchStates {
   InProgress,
@@ -56,7 +55,9 @@ const Layout = (props: Props) => {
 
   if (!props.game) return null;
 
-  const steamids = players?.filter((p: Player) => p.steamid)?.map((p: Player) => p.steamid) || [] as string[];
+  const steamids =
+    players?.filter((p: Player) => p.steamid)?.map((p: Player) => p.steamid) ||
+    ([] as string[]);
 
   return (
     <div className="layout">
@@ -106,7 +107,6 @@ const Layout = (props: Props) => {
         show={showObserved && !!game?.target}
         steamids={steamids}
       />
-      <Minimap players={players} ball={game.ball} />
       {props.matchState === MatchStates.PostGame && (
         <Scoreboard players={players} />
       )}

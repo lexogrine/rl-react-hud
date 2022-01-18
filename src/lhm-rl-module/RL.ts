@@ -178,7 +178,7 @@ export default class RL {
             modifiedData = { ...modifiedData, game: this.game };
           }
         } else {
-          log('Game reset')
+          log("Game reset");
           this.resetGame();
         }
         break;
@@ -190,7 +190,8 @@ export default class RL {
     if (event.logLevel === undefined || event.logLevel >= 1) {
       log(
         `[${event.timestamp.toISOString()}] ${event.name} >`,
-        event.description, event.data
+        event.description,
+        event.data
       );
     }
 
@@ -218,7 +219,19 @@ export default class RL {
   };
 
   private parseEvent = (eventString: string) => {
-    const event: ServerEvent = JSON.parse(eventString);
+    let parsed;
+    try {
+      parsed = JSON.parse(eventString);
+    } catch (e) {
+      console.error("Unable to parse event:", eventString);
+      return {
+        name: "unknown",
+        description: "Module error",
+        timestamp: new Date(),
+      };
+    }
+
+    const event: ServerEvent = parsed;
     const [eventCategory, eventName] = event.event.split(":");
 
     const resolvers: {

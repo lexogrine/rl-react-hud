@@ -9,7 +9,7 @@ import "./ObservedPlayerBox.scss";
 interface Props {
   player?: Player;
   show: boolean;
-  steamids: string[]
+  steamids: string[];
 }
 
 const ObservedPlayerBox = (props: Props) => {
@@ -20,7 +20,7 @@ const ObservedPlayerBox = (props: Props) => {
   return (
     <div
       className={`observed-player-box ${
-        player.team === -1 ? "blue" : "orange"
+        player.team === 0 ? "blue" : "orange"
       } ${show ? "show" : "hide"}`}
     >
       <div className="avatar-box">
@@ -31,11 +31,17 @@ const ObservedPlayerBox = (props: Props) => {
               backgroundImage: `url('${avatars[steamid]?.url}')`,
             }}
           >
-            <CameraContainer observedSteamid={steamid} players={props.steamids} />
+            <CameraContainer
+              observedSteamid={steamid}
+              players={props.steamids}
+            />
           </div>
         ) : (
           <div className="avatar">
-            <CameraContainer observedSteamid={steamid} players={props.steamids} />
+            <CameraContainer
+              observedSteamid={steamid}
+              players={props.steamids}
+            />
           </div>
         )}
       </div>
