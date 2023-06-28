@@ -32,7 +32,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "pack": "npm run build && npm run zip"
+    "pack": "npm run build && npm run zip",
+    "sign": "npm run build && node sign.js && npm-build-zip --name=signed"
   },
   "eslintConfig": {
     "extends": [
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "internal-ip": "^6.2.0",
+    "jsonwebtoken": "^9.0.0",
     "npm-build-zip": "^1.0.3",
     "open": "^8.4.0",
     "sass": "^1.63.6"
