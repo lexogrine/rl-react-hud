@@ -1,0 +1,29 @@
+.trivia_container {
+    position: absolute;
+    right:17px;
+    background-color:rgba(0, 0, 0, 0.9);
+    color: white;
+    top:891px;
+    padding-left:30px;
+    min-width: 200px;
+    opacity:1;
+    transition: opacity 1s;
+    max-width: 400px;
+    font-size: 16pt;
+}
+.trivia_container .title {
+    height: 30px;
+    align-items: center;
+    text-align: right;
+    padding-right:30px;
+    font-weight:bold;
+    padding-top:10px;
+}
+.trivia_container .content {
+    padding-right:30px;
+    padding-bottom:15px;
+    text-align: right;
+}
+.trivia_container.hide {
+    opacity:0;
+}
