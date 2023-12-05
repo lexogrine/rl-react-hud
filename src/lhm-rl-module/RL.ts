@@ -314,7 +314,7 @@ export default class RL {
     };
 
     const timestamp = new Date();
-    const resolver = resolvers[eventCategory][eventName];
+    const resolver = resolvers?.[eventCategory]?.[eventName];
 
     if (!resolver) {
       console.log("Unsupported event:", event.event, "\n", event.data);
