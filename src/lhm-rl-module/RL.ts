@@ -1,4 +1,3 @@
-import fs from "fs";
 import {
   Game,
   RawGame,
@@ -200,6 +199,7 @@ export default class RL {
       new Date().getTime() - this.debugLastDumpTime.getTime() >=
         this.debugDumpFrequencySeconds * 1000
     ) {
+      /*
       fs.appendFile(
         "events.lhmd",
         this.events
@@ -214,7 +214,7 @@ export default class RL {
             this.debugLastDumpIndex = this.events.length - 1;
           }
         }
-      );
+      );*/
     }
   };
 
