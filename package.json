@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "internal-ip": "^6.2.0",
     "jsonwebtoken": "^9.0.0",
     "npm-build-zip": "^1.0.3",
