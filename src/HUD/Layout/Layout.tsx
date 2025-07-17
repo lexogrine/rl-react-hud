@@ -7,6 +7,7 @@ import { Player, StatfeedEvent } from "../../lhm-rl-module";
 
 import "./Layout.scss";
 import Scoreboard from "../Scoreboard";
+import Trivia from "../Trivia/Trivia";
 
 enum MatchStates {
   InProgress,
@@ -69,6 +70,7 @@ const Layout = (props: Props) => {
           Replay
         </div>
       </div>
+      <Trivia />
       <TopBox
         time={game.time || game.time_seconds || game.time_milliseconds}
         blueScore={game.teams[0]?.score}

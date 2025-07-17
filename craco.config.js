@@ -38,7 +38,13 @@ module.exports = {
     },
     webpack: {
         configure: (webpackConfig) => {
-            webpackConfig.plugins.push(new OpenBrowserPlugin({ url: `http://${internalIp.v4.sync()}:${port}/development/`}))
+            webpackConfig.plugins.push(new OpenBrowserPlugin({ url: `http://${internalIp.v4.sync()}:${port}/development/`}));
+            
+            webpackConfig.resolve.fallback = {
+                ...(webpackConfig.resolve.fallback || {}),
+                "buffer": require.resolve("buffer/"),
+            }
+
             return webpackConfig;
         }
     }
