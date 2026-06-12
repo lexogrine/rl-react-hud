@@ -29,6 +29,17 @@ enum MatchStates {
 
 function App() {
   const parseAndUpdateGame = async (data: any) => {
+    if (!data?.game || !data?.players) {
+      setReplay(false);
+      setShowObserved(true);
+      setGame(null);
+      return;
+    }
+
+    const isReplay = Boolean(data.game.isReplay);
+    setReplay(isReplay);
+    setShowObserved(!isReplay);
+
     const playerExtension = await api.players.get();
     const playersToExtend: Player[] = Object.values(data.players);
 
@@ -157,8 +168,20 @@ function App() {
         setShowObserved(false);
       },
     },
-    { event: "game:round_started_go", func: () => setShowObserved(true) },
-    { event: "game:replay_end", func: () => setReplay(false) },
+    {
+      event: "game:round_started_go",
+      func: () => {
+        setReplay(false);
+        setShowObserved(true);
+      },
+    },
+    {
+      event: "game:replay_end",
+      func: () => {
+        setReplay(false);
+        setShowObserved(true);
+      },
+    },
     { event: "game:statfeed_event", func: handleStatfeedEvent },
     {
       event: "game:podium_start",
@@ -169,6 +192,8 @@ function App() {
       func: () => {
         setMatch(null);
         setGame(null);
+        setReplay(false);
+        setShowObserved(true);
         setMatchState(MatchStates.InProgress);
       },
     },
@@ -176,6 +201,8 @@ function App() {
       event: "game:match_created",
       func: () => {
         console.log("reloading match test");
+        setReplay(false);
+        setShowObserved(true);
         loadMatch(true);
       },
     },
